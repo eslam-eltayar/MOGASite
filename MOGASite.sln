@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MOGASite.APIs", "MOGASite.APIs\MOGASite.APIs.csproj", "{168D0E1E-6BB0-40F9-B0EA-2681CEDF3972}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MOGASite.Core", "MOGASite.Core\MOGASite.Core.csproj", "{286AB144-5B76-4503-BE8F-1BC4321828D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MOGASite.Reposatories", "MOGASite.Reposatories\MOGASite.Reposatories.csproj", "{14C91482-6CFB-464F-940B-17FF653A6C81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MOGASite.Services", "MOGASite.Services\MOGASite.Services.csproj", "{5235A8AA-1CA2-4A97-9515-5A82AE426D5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{168D0E1E-6BB0-40F9-B0EA-2681CEDF3972}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{168D0E1E-6BB0-40F9-B0EA-2681CEDF3972}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{168D0E1E-6BB0-40F9-B0EA-2681CEDF3972}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{168D0E1E-6BB0-40F9-B0EA-2681CEDF3972}.Release|Any CPU.Build.0 = Release|Any CPU
+		{286AB144-5B76-4503-BE8F-1BC4321828D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{286AB144-5B76-4503-BE8F-1BC4321828D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{286AB144-5B76-4503-BE8F-1BC4321828D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{286AB144-5B76-4503-BE8F-1BC4321828D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14C91482-6CFB-464F-940B-17FF653A6C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14C91482-6CFB-464F-940B-17FF653A6C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14C91482-6CFB-464F-940B-17FF653A6C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14C91482-6CFB-464F-940B-17FF653A6C81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5235A8AA-1CA2-4A97-9515-5A82AE426D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5235A8AA-1CA2-4A97-9515-5A82AE426D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5235A8AA-1CA2-4A97-9515-5A82AE426D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5235A8AA-1CA2-4A97-9515-5A82AE426D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
