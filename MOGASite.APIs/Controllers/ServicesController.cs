@@ -11,11 +11,11 @@ namespace MOGASite.APIs.Controllers
         private readonly IServiceService _serviceService = serviceService;
 
         [HttpPost("")]
-        public async Task<IActionResult> AddService([FromForm] AddServiceRequest request)
+        public async Task<IActionResult> AddService([FromForm] AddServiceRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _serviceService.CreateServiceAsync(request);
+                var result = await _serviceService.CreateServiceAsync(request, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -25,11 +25,11 @@ namespace MOGASite.APIs.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<IReadOnlyList<ServiceResponse>>> GetServices([FromQuery] ServiceByCategoryRequest request)
+        public async Task<ActionResult<IReadOnlyList<ServiceResponse>>> GetServices([FromQuery] ServiceByCategoryRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _serviceService.GetAllServicesAsync(request);
+                var result = await _serviceService.GetAllServicesAsync(request, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -39,7 +39,7 @@ namespace MOGASite.APIs.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse>> GetService(int id)
+        public async Task<ActionResult<ServiceResponse>> GetService(int id, CancellationToken cancellationToken)
         {
             try
             {
@@ -53,11 +53,11 @@ namespace MOGASite.APIs.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ServiceResponse>> UpdateService(int id, [FromForm] AddServiceRequest request)
+        public async Task<ActionResult<ServiceResponse>> UpdateService(int id, [FromForm] AddServiceRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _serviceService.UpdateServiceAsync(id, request);
+                var result = await _serviceService.UpdateServiceAsync(id, request, cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -67,11 +67,11 @@ namespace MOGASite.APIs.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteService(int id)
+        public async Task<IActionResult> DeleteService(int id, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await _serviceService.DeleteServiceAsync(id);
+                var result = await _serviceService.DeleteServiceAsync(id, cancellationToken);
                 return Ok(new { Message = "Service Deleted Successfully." });
             }
             catch (Exception ex)
