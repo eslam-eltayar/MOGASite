@@ -23,7 +23,7 @@ namespace MOGASite.Core.Specifications.Services
         }
 
         public ServiceWithStepsSpecification(ServiceByCategoryRequest request)
-        : base(s => (string.IsNullOrEmpty(request.Category) || s.TitleEN == request.Category))
+        : base(s => (string.IsNullOrEmpty(request.Category) || s.Category == request.Category))
         {
             AddInclude();
         }

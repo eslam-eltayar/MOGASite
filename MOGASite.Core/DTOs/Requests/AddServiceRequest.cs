@@ -21,6 +21,8 @@ namespace MOGASite.Core.DTOs.Requests
 
         public string Type { get; set; } = string.Empty;
 
+        public string Category { get; set; } = string.Empty;
+
         public IFormFile Image { get; set; }
 
         public List<ServiceStepsRequest> ServiceSteps { get; set; } = new List<ServiceStepsRequest>();

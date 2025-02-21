@@ -16,7 +16,7 @@ namespace MOGASite.Core.DTOs.Requests
         public string BioAR { get; set; } = string.Empty;
         public string BioEN { get; set; } = string.Empty;
 
-        public IFormFile Image { get; set; } 
+        //public IFormFile Image { get; set; } 
 
     }
 }

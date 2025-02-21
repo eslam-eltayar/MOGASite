@@ -45,7 +45,7 @@ namespace MOGASite.Services
                 DescriptionEN = request.DescriptionEN,
                 BioAR = request.BioAR,
                 BioEN = request.BioEN,
-                
+                Category = request.Category
 
             };
 
@@ -82,15 +82,15 @@ namespace MOGASite.Services
                     BioAR = step.BioAR,
                     BioEN = step.BioEN,
                     ServiceId = service.Id,
-
+                    
 
                 };
 
-                if (step.Image != null && step.Image.Length > 0)
-                {
-                    string stepImageUrl = await _fileUploadService.UploadFileAsync(step.Image, "serviceSteps");
-                    serviceStep.Image = stepImageUrl;
-                }
+                //if (step.Image != null && step.Image.Length > 0)
+                //{
+                //    string stepImageUrl = await _fileUploadService.UploadFileAsync(step.Image, "serviceSteps");
+                //    serviceStep.Image = stepImageUrl;
+                //}
 
                 _unitOfWork.Repository<ServiceSteps>().Add(serviceStep);
             }
@@ -112,6 +112,7 @@ namespace MOGASite.Services
                 BioEN = service.BioEN,
                 Image = service.Image,
                 Type = service.Type.ToString(),
+                Category = service.Category,
                 ServiceSteps = service.ServiceSteps.Select(step => new ServiceStepsResponse
                 {
                     TitleAR = step.TitleAR,
@@ -199,6 +200,7 @@ namespace MOGASite.Services
                 BioEN = service.BioEN,
                 Image = service.Image,
                 Type = service.Type.ToString(),
+                Category = service.Category,
 
                 ServiceSteps = service.ServiceSteps.Select(step => new ServiceStepsResponse
                 {
@@ -237,6 +239,8 @@ namespace MOGASite.Services
                 BioEN = service.BioEN,
                 Image = service.Image,
                 Type = service.Type.ToString(),
+                Category = service.Category,
+                
                 ServiceSteps = service.ServiceSteps.Select(step => new ServiceStepsResponse
                 {
                     TitleAR = step.TitleAR,
@@ -272,7 +276,7 @@ namespace MOGASite.Services
             service.DescriptionEN = request.DescriptionEN;
             service.BioAR = request.BioAR;
             service.BioEN = request.BioEN;
-
+            service.Category = request.Category;
 
             if (Enum.TryParse<ProjectType>(request.Type, true, out var parsedType))
             {
@@ -328,11 +332,11 @@ namespace MOGASite.Services
                         ServiceId = service.Id
                     };
 
-                    if (step.Image != null && step.Image.Length > 0)
-                    {
-                        string stepImageUrl = await _fileUploadService.UploadFileAsync(step.Image, "serviceSteps");
-                        serviceStep.Image = stepImageUrl;
-                    }
+                    //if (step.Image != null && step.Image.Length > 0)
+                    //{
+                    //    string stepImageUrl = await _fileUploadService.UploadFileAsync(step.Image, "serviceSteps");
+                    //    serviceStep.Image = stepImageUrl;
+                    //}
 
                     _unitOfWork.Repository<ServiceSteps>().Add(serviceStep);
                 }
@@ -367,6 +371,7 @@ namespace MOGASite.Services
                     BioAR = step.BioAR,
                     BioEN = step.BioEN,
                     Image = step.Image
+
                 }).ToList()
             };
         }

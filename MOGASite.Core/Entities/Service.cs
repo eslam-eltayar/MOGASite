@@ -22,6 +22,8 @@ namespace MOGASite.Core.Entities
 
         public ProjectType Type { get; set; }
 
+        public string Category { get; set; } = string.Empty;
+
         public ICollection<ServiceSteps> ServiceSteps { get; set; } = new HashSet<ServiceSteps>();
     }
 }
