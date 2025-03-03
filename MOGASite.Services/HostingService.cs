@@ -28,7 +28,8 @@ namespace MOGASite.Services
                 NameAR = request.NameAR,
                 NameEN = request.NameEN,
                 Price = request.Price,
-                IsBest = request.IsBest
+                IsBest = request.IsBest,
+                Url = request.Url,
             };
 
             _unitOfWork.Repository<Hosting>().Add(hosting);
@@ -46,7 +47,8 @@ namespace MOGASite.Services
                 {
                     HostingId = hosting.Id,
                     TitleAR = prop.TitleAR,
-                    TitleEN = prop.TitleEN
+                    TitleEN = prop.TitleEN,
+                    
 
                 };
 
@@ -67,6 +69,7 @@ namespace MOGASite.Services
                 NameEN = hosting.NameEN,
                 Price = hosting.Price,
                 IsBest = hosting.IsBest,
+                Url = hosting.Url,
                 Hosting_Properties = hosting.HostingProperties.Select(x => new HostingPropertiesRequest
                 {
                     TitleAR = x.TitleAR,
@@ -121,6 +124,7 @@ namespace MOGASite.Services
                 NameEN = hosting.NameEN,
                 Price = hosting.Price,
                 IsBest = hosting.IsBest,
+                Url = hosting.Url,
                 Hosting_Properties = hosting.HostingProperties.Select(x => new HostingPropertiesRequest
                 {
                     TitleAR = x.TitleAR,
@@ -149,6 +153,7 @@ namespace MOGASite.Services
             hosting.NameEN = request.NameEN;
             hosting.Price = request.Price;
             hosting.IsBest = request.IsBest;
+            hosting.Url = request.Url;
 
             if (request.HostingProperties.Any())
             {
@@ -184,6 +189,7 @@ namespace MOGASite.Services
                 NameEN = hosting.NameEN,
                 Price = hosting.Price,
                 IsBest = hosting.IsBest,
+                Url = hosting.Url,
                 Hosting_Properties = hosting.HostingProperties.Select(x => new HostingPropertiesRequest
                 {
                     TitleAR = x.TitleAR,

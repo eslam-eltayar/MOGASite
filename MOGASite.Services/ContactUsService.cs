@@ -11,9 +11,10 @@ using System.Threading.Tasks;
 
 namespace MOGASite.Services
 {
-    public class ContactUsService(IUnitOfWork unitOfWork) : IContactUsService
+    public class ContactUsService(IUnitOfWork unitOfWork, IMailService emailService) : IContactUsService
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IMailService _emailService = emailService;
 
         public async Task<ContactUsResponse> AddContactUsAsync(AddContactUsRequest request, CancellationToken cancellationToken = default)
         {
@@ -40,6 +41,9 @@ namespace MOGASite.Services
             {
                 throw new Exception("Failed to add contact us.");
             }
+
+            // **Send Email After Contact is Saved**
+            await SendContactUsEmailAsync(contactUs);
 
             return new ContactUsResponse
             {
@@ -97,6 +101,22 @@ namespace MOGASite.Services
                     Date = x.CreatedAt.ToShortDateString()
 
                 }).ToList().AsReadOnly();
+        }
+
+        private async Task SendContactUsEmailAsync(ContactUs contactUs)
+        {
+            string subject = $"New Contact Us Submission from {contactUs.FullName}";
+            string message = $@"
+            <p><strong>Name:</strong> {contactUs.FullName}</p>
+            <p><strong>Email:</strong> {contactUs.Email}</p>
+            <p><strong>Phone:</strong> {contactUs.Phone}</p>
+            <p><strong>How They Found Us:</strong> {contactUs.FindWay}</p>
+            <p><strong>Message:</strong></p>
+            <p>{contactUs.Message}</p>";
+
+            string adminEmail = "magd@mogasoft.net"; // Change to your recipient email
+
+            await _emailService.SendMailAsync(adminEmail, subject, message);
         }
     }
 }

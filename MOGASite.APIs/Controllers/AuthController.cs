@@ -35,10 +35,15 @@ namespace MOGASite.APIs.Controllers
             if (!result.Succeeded)
                 return Unauthorized(new { Message = "Invalid Login." });
 
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var role = roles.FirstOrDefault();
+
             return Ok(new UserDto()
             {
                 Email = user?.Email ?? string.Empty,
-                Token = await _tokenService.CreateTokenAsync(user, _userManager)
+                Token = await _tokenService.CreateTokenAsync(user, _userManager),
+                Role = role
             });
         }
     }

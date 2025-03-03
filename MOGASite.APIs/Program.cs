@@ -36,23 +36,21 @@ namespace MOGASite.APIs
 
             var services = scope.ServiceProvider;
 
-            var _dbContext = services.GetRequiredService<ApplicationDbContext>();
-
-
-            // Ask CLR for Creatig Object from DbContext Explicitly
-
             var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
             var logger = loggerFactory.CreateLogger<Program>();
 
             try
             {
-                var _userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-                await ApplicationIdentityDbContextSeed.SeedUserAsync(_userManager);
+                var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                await ApplicationIdentityDbContextSeed.SeedUserAsync(userManager, roleManager);
             }
             catch (Exception ex)
             {
-                // Console.WriteLine(ex);
-                logger.LogError(ex, "An Error Has Been occured during Seeding Data.");
+                logger.LogError(ex, "An Error Has Been occurred during Seeding Data.");
             }
 
             #endregion
@@ -61,7 +59,7 @@ namespace MOGASite.APIs
             //{
             //app.MapOpenApi();
             app.UseSwagger();
-                app.UseSwaggerUI();
+            app.UseSwaggerUI();
             //}
 
             app.UseHttpsRedirection();
@@ -70,7 +68,31 @@ namespace MOGASite.APIs
                         options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
                         );
 
+            //var allowedOrigins = builder.Configuration.GetSection("CorsSettings:AllowedOrigins").Get<string[]>();
+
+            //app.UseCors(options =>
+            //    options.WithOrigins(allowedOrigins)
+            //           .AllowAnyMethod()
+            //           .AllowAnyHeader()
+            //);
+
+            //app.UseDefaultFiles();
+
             app.UseStaticFiles();
+
+            // Middleware to handle Angular routing
+
+            app.Use(async (context, next) =>
+            {
+                if (!context.Request.Path.StartsWithSegments("/api") && // Allow API routes
+                    !System.IO.Path.HasExtension(context.Request.Path.Value)) // Redirect non-file requests
+                {
+                    context.Request.Path = "/index.html";
+                }
+                await next();
+            });
+
+            app.UseRouting();
 
             app.UseAuthorization();
 

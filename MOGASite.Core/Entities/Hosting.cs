@@ -13,6 +13,8 @@ namespace MOGASite.Core.Entities
         public decimal Price { get; set; } = 0m;
         public bool IsBest { get; set; } = false;
 
+        public string Url { get; set; } = string.Empty;
+
         public ICollection<HostingProperties> HostingProperties { get; set; } = new HashSet<HostingProperties>();
     }
 }
