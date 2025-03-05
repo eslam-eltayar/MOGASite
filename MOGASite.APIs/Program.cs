@@ -26,7 +26,7 @@ namespace MOGASite.APIs
 
             builder.Services.AddIdentityServices(builder.Configuration);
 
-
+            builder.Configuration.AddUserSecrets<Program>();
 
             var app = builder.Build();
 

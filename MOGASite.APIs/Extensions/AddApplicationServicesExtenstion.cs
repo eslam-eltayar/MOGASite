@@ -20,6 +20,8 @@ namespace MOGASite.APIs.Extensions
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
+
+
             Services.AddFluentValidationAutoValidation();
             Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

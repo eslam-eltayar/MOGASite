@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MOGASite.APIs.Helpers;
-using MOGASite.Core.DTOs;
 using MOGASite.Core.DTOs.Requests;
 using MOGASite.Core.DTOs.Responses;
 using MOGASite.Core.Services;

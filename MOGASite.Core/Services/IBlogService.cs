@@ -1,5 +1,4 @@
-﻿using MOGASite.Core.DTOs;
-using MOGASite.Core.DTOs.Requests;
+﻿using MOGASite.Core.DTOs.Requests;
 using MOGASite.Core.DTOs.Responses;
 using MOGASite.Core.Entities;
 using System;

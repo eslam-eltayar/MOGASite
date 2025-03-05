@@ -1,4 +1,4 @@
-﻿using MOGASite.Core.DTOs;
+﻿using MOGASite.Core.DTOs.Requests;
 using MOGASite.Core.Entities;
 using System;
 using System.Collections.Generic;

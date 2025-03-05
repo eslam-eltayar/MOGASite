@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MOGASite.Core.DTOs
+namespace MOGASite.Core.DTOs.Requests
 {
     public class PaginationDto
     {
@@ -14,7 +14,7 @@ namespace MOGASite.Core.DTOs
         public int PageSize
         {
             get => pageSize;
-            set => pageSize = (value > maxPageSize) ? maxPageSize : value;
+            set => pageSize = value > maxPageSize ? maxPageSize : value;
         }
 
         public int PageIndex { get; set; } = 1;

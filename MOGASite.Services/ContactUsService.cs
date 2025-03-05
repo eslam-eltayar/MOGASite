@@ -114,7 +114,7 @@ namespace MOGASite.Services
             <p><strong>Message:</strong></p>
             <p>{contactUs.Message}</p>";
 
-            string adminEmail = "magd@mogasoft.net"; // Change to your recipient email
+            string adminEmail = "info@mogasoft.net"; // Change to your recipient email
 
             await _emailService.SendMailAsync(adminEmail, subject, message);
         }
