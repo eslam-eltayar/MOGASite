@@ -16,7 +16,11 @@ namespace MOGASite.APIs.Controllers
             try
             {
                 var newContactUs = await _contactUsService.AddContactUsAsync(request, cancellationToken);
-                return Ok(newContactUs);
+                return Ok(new
+                {
+                    Message = "ContactUs Added Successfully",
+                    Response = newContactUs
+                });
             }
             catch (Exception ex)
             {

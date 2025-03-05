@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MOGASite.Core.Services;
 using MOGASite.Services.Mail;
@@ -15,40 +16,47 @@ namespace MOGASite.Services
     public class MailService : IMailService
     {
         private readonly IOptions<MailSettings> _mailSettings;
+        private readonly ILogger<MailService> _logger;
         private readonly IConfiguration _configuration;
 
-        public MailService(IConfiguration configuration, IOptions<MailSettings> mailSettings)
+        public MailService(IConfiguration configuration, IOptions<MailSettings> mailSettings, ILogger<MailService> logger)
         {
             _configuration = configuration;
             _mailSettings = mailSettings;
+            _logger = logger;
         }
-         
-        public async Task SendMailAsync(string toEmail, string subject, string message)
+
+        public Task SendMailAsync(string toEmail, string subject, string message)
         {
-            var smtpServer = _configuration["SmtpSettings:Host"];
-            var port = int.Parse(_configuration["SmtpSettings:Port"]);
-            var senderEmail = _configuration["SmtpSettings:Email"];
-            var senderPassword = _configuration["SmtpSettings:Password"];
-            //var enableSSL = bool.Parse(_configuration["SmtpSettings:EnableSsl"]);
+            // Retrieve SMTP settings from appsettings.json
+            var smtpEmail = _configuration["SmtpSettings:Email"];
+            var smtpPassword = _configuration["SmtpSettings:Password"];
+            var smtpHost = _configuration["SmtpSettings:Host"];
+            var smtpPort = int.Parse(_configuration["SmtpSettings:Port"]);
+            //var enableSsl = bool.Parse(_configuration["SmtpSettings:EnableSsl"]);
 
-            using var client = new SmtpClient(smtpServer, port)
+            var client = new SmtpClient(smtpHost, smtpPort)
             {
-                Credentials = new NetworkCredential(senderEmail, senderPassword),
-                //EnableSsl = enableSSL,
-                UseDefaultCredentials = false
+                //EnableSsl = enableSsl,
+                //Credentials = new NetworkCredential(smtpEmail, smtpPassword)
             };
 
-            var mailMessage = new MailMessage
+            // Send email
+            try
             {
-                From = new MailAddress(senderEmail),
-                Subject = subject,
-                Body = message,
-                IsBodyHtml = true
-            };
+                var result = client.SendMailAsync(
+                       new MailMessage(from: smtpEmail, to: toEmail, subject, message));
 
-            mailMessage.To.Add(toEmail);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(String.Format("{0} @ {1}", ">> Error ", ex.StackTrace));
+                _logger.LogError(String.Format("{0} @ {1}", ">> Error ", ex.Message));
 
-            await client.SendMailAsync(mailMessage);
+            }
+
+            return Task.CompletedTask;
         }
 
 

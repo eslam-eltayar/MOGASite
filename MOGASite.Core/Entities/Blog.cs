@@ -23,7 +23,9 @@ namespace MOGASite.Core.Entities
         public string? ImageUrl { get; set; } = string.Empty;
         public DateTime Date { get; set; } = DateTime.UtcNow;
 
-        public Category Category { get; set; } 
+        public Category Category { get; set; }
+
+        public string Slug { get; set; } = string.Empty;
 
         //public ICollection<BlogContent> BlogContents { get; set; } = new HashSet<BlogContent>();
 

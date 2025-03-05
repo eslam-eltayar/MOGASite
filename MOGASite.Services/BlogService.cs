@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.IdentityModel.Logging;
 using MOGASite.Core.DTOs.Requests;
 using MOGASite.Core.DTOs.Responses;
 using MOGASite.Core.Entities;
@@ -37,6 +38,18 @@ namespace MOGASite.Services
 
             string imageUrl = await _fileUploadService.UploadFileAsync(request.Image, "blogs");
 
+
+            // Generate initial slug
+            //string slug = SlugHelper.GenerateSlug(request.TitleEN);
+            //string originalSlug = slug;
+            //int counter = 1;
+
+            //// Ensure slug is unique
+            //while (await _unitOfWork.Repository<Blog>().AnyAsync(b => b.Slug == slug))
+            //{
+            //    slug = $"{originalSlug}-{counter++}";
+            //}
+
             var blog = new Blog
             {
                 TitleAR = request.TitleAR,
@@ -67,23 +80,6 @@ namespace MOGASite.Services
                 throw new Exception("There's an error while adding Blog!");
 
 
-            //foreach (var blogContent in request.BlogContents)
-            //{
-            //    var content = new BlogContent
-            //    {
-            //        TitleAR = blogContent.TitleAR,
-            //        TitleEN = blogContent.TitleEN,
-            //        DescriptionAR = blogContent.DescriptionAR,
-            //        DescriptionEN = blogContent.DescriptionEN,
-            //        BlogId = blog.Id
-            //    };
-            //    _unitOfWork.Repository<BlogContent>().Add(content);
-            //}
-
-            //int blogContentResult = await _unitOfWork.CompleteAsync(cancellationToken);
-
-            //if (blogContentResult <= 0)
-            //    throw new Exception("There's an error while adding BlogContent!");
 
             return new BlogResponse
             {
@@ -96,16 +92,7 @@ namespace MOGASite.Services
                 Category = blog.Category.ToString(),
                 Date = blog.Date.ToString(),
                 ContentAR = blog.ContentAR,
-                ContentEN = blog.ContentEN,
-                //BlogContents =
-                //    blog.BlogContents.Select(c => new BlogContentResponse
-                //    {
-                //        TitleAR = c.TitleAR,
-                //        TitleEN = c.TitleEN,
-                //        DescriptionAR = c.DescriptionAR,
-                //        DescriptionEN = c.DescriptionEN
-                //    }).ToList()
-
+                ContentEN = blog.ContentEN,          
             };
 
         }

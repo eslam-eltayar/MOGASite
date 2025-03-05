@@ -1,8 +1,7 @@
-
 using Microsoft.AspNetCore.Identity;
 using MOGASite.APIs.Extensions;
-using MOGASite.Reposatories._Data;
 using MOGASite.Reposatories._Identity;
+using Serilog;
 
 namespace MOGASite.APIs
 {
@@ -27,6 +26,9 @@ namespace MOGASite.APIs
             builder.Services.AddIdentityServices(builder.Configuration);
 
             builder.Configuration.AddUserSecrets<Program>();
+
+            var sLogger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();
+            builder.Logging.AddSerilog(sLogger);
 
             var app = builder.Build();
 
