@@ -7,6 +7,8 @@ using MOGASite.Core.Enums;
 using MOGASite.Core.Repositories;
 using MOGASite.Core.Services;
 using MOGASite.Core.Specifications.Services;
+using MOGASite.Services.SEO;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,17 @@ namespace MOGASite.Services
                 throw new ArgumentException("Image is required.");
             }
 
+            //Generate initial slug
+            string slug = Slug.GenerateSlug(request.TitleEN);
+            string originalSlug = slug;
+            int counter = 1;
+
+            // Ensure slug is unique
+            while (await _unitOfWork.Repository<Service>().AnyAsync(b => b.Slug == slug))
+            {
+                slug = $"{originalSlug}-{counter++}";
+            }
+
             var service = new Service
             {
                 TitleAR = request.TitleAR,
@@ -45,7 +58,8 @@ namespace MOGASite.Services
                 DescriptionEN = request.DescriptionEN,
                 BioAR = request.BioAR,
                 BioEN = request.BioEN,
-                Category = request.Category
+                Category = request.Category,
+                Slug = slug
 
             };
 
@@ -123,7 +137,9 @@ namespace MOGASite.Services
                     BioEN = step.BioEN,
                     Image = step.Image
 
-                }).ToList()
+                }).ToList(),
+
+                Slug = service.Slug
             };
         }
 
@@ -211,7 +227,9 @@ namespace MOGASite.Services
                     BioAR = step.BioAR,
                     BioEN = step.BioEN,
                     Image = step.Image
-                }).ToList()
+                }).ToList(),
+
+                Slug = service.Slug
 
             }).ToList().AsReadOnly();
 
@@ -240,7 +258,8 @@ namespace MOGASite.Services
                 Image = service.Image,
                 Type = service.Type.ToString(),
                 Category = service.Category,
-                
+                Slug = service.Slug,
+
                 ServiceSteps = service.ServiceSteps.Select(step => new ServiceStepsResponse
                 {
                     TitleAR = step.TitleAR,
@@ -252,6 +271,45 @@ namespace MOGASite.Services
                     Image = step.Image
                 }).ToList()
             };
+        }
+
+        public async Task<ServiceResponse> GetServiceBySlugAsync(string slug, CancellationToken cancellationToken = default)
+        {
+            var spec = new ServiceWithStepsSpecification(slug);
+
+            var service = await _unitOfWork.Repository<Service>().GetByIdWithSpecAsync(spec, cancellationToken);
+
+            if (service == null)
+            {
+                throw new Exception("Service Not Found");
+            }
+
+            return new ServiceResponse
+            {
+                Id = service.Id,
+                TitleAR = service.TitleAR,
+                TitleEN = service.TitleEN,
+                DescriptionAR = service.DescriptionAR,
+                DescriptionEN = service.DescriptionEN,
+                BioAR = service.BioAR,
+                BioEN = service.BioEN,
+                Image = service.Image,
+                Type = service.Type.ToString(),
+                Category = service.Category,
+                Slug = service.Slug,
+
+                ServiceSteps = service.ServiceSteps.Select(step => new ServiceStepsResponse
+                {
+                    TitleAR = step.TitleAR,
+                    TitleEN = step.TitleEN,
+                    DescriptionAR = step.DescriptionAR,
+                    DescriptionEN = step.DescriptionEN,
+                    BioAR = step.BioAR,
+                    BioEN = step.BioEN,
+                    Image = step.Image
+                }).ToList()
+            };
+
         }
 
         public async Task<ServiceResponse> UpdateServiceAsync(int id, AddServiceRequest request, CancellationToken cancellationToken = default)
@@ -268,6 +326,22 @@ namespace MOGASite.Services
             if (service == null)
             {
                 throw new Exception("Service Not Found");
+            }
+
+            // Check if TitleEN is updated
+            if (!string.Equals(service.TitleEN, request.TitleEN, StringComparison.OrdinalIgnoreCase))
+            {
+                string newSlug = Slug.GenerateSlug(request.TitleEN);
+                string originalSlug = newSlug;
+                int counter = 1;
+
+                // Ensure slug is unique
+                while (await _unitOfWork.Repository<Service>().AnyAsync(b => b.Slug == newSlug && b.Id != service.Id))
+                {
+                    newSlug = $"{originalSlug}-{counter++}";
+                }
+
+                service.Slug = newSlug;
             }
 
             service.TitleAR = request.TitleAR;

@@ -20,6 +20,7 @@ namespace MOGASite.Core.Entities
         public Category Category { get; set; }
         public ProjectType Type { get; set; }
 
+        public string Slug { get; set; } = string.Empty;
 
         public ICollection<ProjectMedia> MediaItems { get; set; } = new HashSet<ProjectMedia>();
         public ICollection<ProjectSteps> ProjectSteps { get; set; } = new HashSet<ProjectSteps>();

@@ -52,6 +52,20 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
+        [HttpGet("BySlug/{slug}")]
+        public async Task<ActionResult<ServiceResponse>> GetServiceBySlug(string slug, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _serviceService.GetServiceBySlugAsync(slug, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { Message = ex.Message });
+            }
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse>> UpdateService(int id, [FromForm] AddServiceRequest request, CancellationToken cancellationToken)
         {
@@ -65,6 +79,8 @@ namespace MOGASite.APIs.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
+
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteService(int id, CancellationToken cancellationToken)

@@ -18,5 +18,8 @@ namespace MOGASite.Core.Services
 
         Task<BlogResponse> UpdateBlogAsync(int id, UpdateBlogRequest request, CancellationToken cancellationToken = default);
         Task<bool> DeleteBlogAsync(int id, CancellationToken cancellationToken = default);
+
+        Task<BlogResponse> GetBlogBySlugAsync(string slug, CancellationToken cancellationToken = default);
+
     }
 }

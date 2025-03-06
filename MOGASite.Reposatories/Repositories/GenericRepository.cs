@@ -93,5 +93,8 @@ namespace MOGASite.Reposatories.Repositories
 
         public async Task AddRange(IEnumerable<T> entities)
         => await _dbContext.Set<T>().AddRangeAsync(entities);
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+        => await _dbContext.Set<T>().AnyAsync(predicate, cancellationToken);
     }
 }

@@ -15,5 +15,7 @@ namespace MOGASite.Core.Services
         Task<ServiceResponse> GetServiceByIdAsync(int id, CancellationToken cancellationToken = default);
         Task<IReadOnlyList<ServiceResponse>> GetAllServicesAsync(ServiceByCategoryRequest request, CancellationToken cancellationToken = default);
         Task<bool> DeleteServiceAsync(int id, CancellationToken cancellationToken = default);
+
+        Task<ServiceResponse> GetServiceBySlugAsync(string slug, CancellationToken cancellationToken = default);
     }
 }

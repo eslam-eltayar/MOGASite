@@ -21,5 +21,8 @@ namespace MOGASite.Core.Services
         Task<bool> DeleteProjectAsync(int projectId, CancellationToken cancellationToken = default);
 
         Task<IReadOnlyList<ProjectResponse>> GetProjectsByCategoryAsync(ProjectByCategoryRequest request, CancellationToken cancellationToken = default);
+
+        Task<ProjectResponse> GetProjectBySlugAsync(string slug, CancellationToken cancellationToken = default);
+
     }
 }

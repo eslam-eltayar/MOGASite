@@ -22,6 +22,8 @@ namespace MOGASite.Core.DTOs.Responses
         public string Image { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
 
+        public string Slug { get; set; }
+
         public string Category { get; set; } = string.Empty;
 
         public List<ServiceStepsResponse> ServiceSteps { get; set; } = new List<ServiceStepsResponse>();

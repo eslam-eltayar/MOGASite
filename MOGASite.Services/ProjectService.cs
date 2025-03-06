@@ -7,6 +7,8 @@ using MOGASite.Core.Enums;
 using MOGASite.Core.Repositories;
 using MOGASite.Core.Services;
 using MOGASite.Core.Specifications.Projects;
+using MOGASite.Services.SEO;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +42,17 @@ namespace MOGASite.Services
 
             string headImageUrl = await _fileUploadService.UploadFileAsync(request.HeadImage, "projects");
 
+            //Generate initial slug
+            string slug = Slug.GenerateSlug(request.NameEN);
+            string originalSlug = slug;
+            int counter = 1;
+
+            // Ensure slug is unique
+            while (await _unitOfWork.Repository<Project>().AnyAsync(b => b.Slug == slug))
+            {
+                slug = $"{originalSlug}-{counter++}";
+            }
+
             var project = new Project
             {
                 NameAR = request.NameAR,
@@ -47,7 +60,7 @@ namespace MOGASite.Services
                 DescriptionAR = request.DescriptionAR,
                 DescriptionEN = request.DescriptionEN,
                 HeadImageUrl = headImageUrl,
-
+                Slug = slug
             };
 
             if (Enum.TryParse<Category>(request.Category, true, out var parsedCategory))
@@ -146,7 +159,9 @@ namespace MOGASite.Services
                     DescriptionAR = step.DescriptionAR,
                     DescriptionEN = step.DescriptionEN,
 
-                }).ToList()
+                }).ToList(),
+
+                Slug = project.Slug
 
             };
         }
@@ -220,6 +235,43 @@ namespace MOGASite.Services
                 ProjectId = project.Id,
                 HeadImageUrl = project.HeadImageUrl,
                 Type = project.Type.ToString(),
+                
+                ProjectSteps = project.ProjectSteps.Select(step => new ProjectStepsResponse
+                {
+                    TitleAR = step.TitleAR,
+                    TitleEN = step.TitleEN,
+                    DescriptionAR = step.DescriptionAR,
+                    DescriptionEN = step.DescriptionEN,
+                }).ToList(),
+
+                Slug = project.Slug
+
+            };
+
+        }
+
+        public async Task<ProjectResponse> GetProjectBySlugAsync(string slug, CancellationToken cancellationToken = default)
+        {
+            var spec = new ProjectBySlugSpecification(slug);
+
+            var project = await _unitOfWork.Repository<Project>().GetByIdWithSpecAsync(spec, cancellationToken);
+
+            if (project is null)
+            {
+                throw new Exception("Project not found");
+            }
+
+            return new ProjectResponse
+            {
+                TitleAR = project.NameAR,
+                TitleEN = project.NameEN,
+                DescriptionAR = project.DescriptionAR,
+                DescriptionEN = project.DescriptionEN,
+                Category = project.Category.ToString(),
+                MediaUrls = project.MediaItems.Select(media => media.MediaUrl).ToList(),
+                ProjectId = project.Id,
+                HeadImageUrl = project.HeadImageUrl,
+                Type = project.Type.ToString(),
 
                 ProjectSteps = project.ProjectSteps.Select(step => new ProjectStepsResponse
                 {
@@ -227,10 +279,11 @@ namespace MOGASite.Services
                     TitleEN = step.TitleEN,
                     DescriptionAR = step.DescriptionAR,
                     DescriptionEN = step.DescriptionEN,
-                }).ToList()
+                }).ToList(),
+
+                Slug = project.Slug
 
             };
-
         }
 
         public async Task<IReadOnlyList<ProjectResponse>> GetProjectsAsync(CancellationToken cancellationToken = default)   
@@ -263,7 +316,9 @@ namespace MOGASite.Services
                     DescriptionAR = step.DescriptionAR,
                     DescriptionEN = step.DescriptionEN,
 
-                }).ToList()
+                }).ToList(),
+
+                Slug = project.Slug
 
             }).ToList().AsReadOnly();
 
@@ -297,7 +352,9 @@ namespace MOGASite.Services
                     DescriptionAR = step.DescriptionAR,
                     DescriptionEN = step.DescriptionEN,
 
-                }).ToList()
+                }).ToList(),
+
+                Slug = project.Slug
 
             }).ToList().AsReadOnly();
 
@@ -319,10 +376,28 @@ namespace MOGASite.Services
                 throw new Exception("Project not found");
             }
 
+            // Check if TitleEN is updated
+            if (!string.Equals(project.NameEN, request.NameEN, StringComparison.OrdinalIgnoreCase))
+            {
+                string newSlug = Slug.GenerateSlug(request.NameEN);
+                string originalSlug = newSlug;
+                int counter = 1;
+
+                // Ensure slug is unique
+                while (await _unitOfWork.Repository<Project>().AnyAsync(b => b.Slug == newSlug && b.Id != project.Id))
+                {
+                    newSlug = $"{originalSlug}-{counter++}";
+                }
+
+                project.Slug = newSlug;
+            }
+
             project.NameAR = request.NameAR;
             project.NameEN = request.NameEN;
             project.DescriptionAR = request.DescriptionAR;
             project.DescriptionEN = request.DescriptionEN;
+
+
 
             if (Enum.TryParse<Category>(request.Category, true, out var parsedCategory))
             {
@@ -430,7 +505,8 @@ namespace MOGASite.Services
                     TitleEN = step.TitleEN,
                     DescriptionAR = step.DescriptionAR,
                     DescriptionEN = step.DescriptionEN,
-                }).ToList()
+                }).ToList(),
+                Slug = project.Slug
             };
 
 

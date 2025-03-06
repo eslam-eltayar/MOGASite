@@ -52,6 +52,20 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
+        [HttpGet("BySlug/{slug}")]
+        public async Task<IActionResult> GetProjectBySlug(string slug, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var project = await _projectService.GetProjectBySlugAsync(slug, cancellationToken);
+                return Ok(project);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
         [HttpGet("ByCategory")]
         public async Task<IActionResult> GetProjectsByCategory([FromQuery] ProjectByCategoryRequest request, CancellationToken cancellationToken)
         {
@@ -93,9 +107,6 @@ namespace MOGASite.APIs.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
-
-
-
 
     }
 }

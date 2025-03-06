@@ -28,6 +28,12 @@ namespace MOGASite.Core.Specifications.Services
             AddInclude();
         }
 
+        public ServiceWithStepsSpecification(string slug)
+            : base(s => s.Slug == slug)
+        {
+            AddInclude();
+        }
+
         private void AddInclude()
         {
             Includes.Add(x => x.ServiceSteps);

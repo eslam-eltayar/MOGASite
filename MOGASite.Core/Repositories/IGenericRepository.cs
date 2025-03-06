@@ -21,6 +21,7 @@ namespace MOGASite.Core.Repositories
         Task<int> GetCountAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
         IQueryable<T> GetAllAsQueryable(ISpecification<T>? spec);
         IQueryable<T> GetAllAsQueryable();
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
 
 
         void Add(T entity);

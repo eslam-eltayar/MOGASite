@@ -42,6 +42,20 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
+        [HttpGet("BySlug/{slug}")]
+        public async Task<IActionResult> GetBlogBySlug(string slug, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var blog = await _blogService.GetBlogBySlugAsync(slug, cancellationToken);
+                return Ok(blog);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
         [HttpGet("AllBlogs")]
         public async Task<ActionResult<Pagination<IReadOnlyList<BlogResponse>>>> GetAllBlogs([FromQuery] PaginationDto paginationDto, CancellationToken cancellationToken)
         {

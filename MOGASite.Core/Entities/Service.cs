@@ -24,6 +24,9 @@ namespace MOGASite.Core.Entities
 
         public string Category { get; set; } = string.Empty;
 
+        public string Slug { get; set; } = string.Empty;
+
+
         public ICollection<ServiceSteps> ServiceSteps { get; set; } = new HashSet<ServiceSteps>();
     }
 }

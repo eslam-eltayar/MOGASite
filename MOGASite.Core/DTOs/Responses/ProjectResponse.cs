@@ -16,7 +16,7 @@ namespace MOGASite.Core.DTOs.Responses
         public string Category { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
         public string HeadImageUrl { get; set; } = string.Empty;
-
+        public string Slug { get; set; }
         public List<ProjectStepsResponse> ProjectSteps { get; set; } = new List<ProjectStepsResponse>();
         public List<string> MediaUrls { get; set; } = new List<string>();
 

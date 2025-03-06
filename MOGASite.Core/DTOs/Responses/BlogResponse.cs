@@ -21,6 +21,8 @@ namespace MOGASite.Core.DTOs.Responses
 
         public string Date { get; set; } = string.Empty;
 
+        public string Slug { get; set; }
+
         //public List<BlogContentResponse> BlogContents { get; set; } = new List<BlogContentResponse>();
     }
 }

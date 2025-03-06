@@ -1,6 +1,12 @@
-﻿namespace MOGASite.APIs.Helpers
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MOGASite.Services.SEO
 {
-    public static class SlugHelper
+    public static class Slug
     {
         public static string GenerateSlug(string title)
         {

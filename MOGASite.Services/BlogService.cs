@@ -7,6 +7,7 @@ using MOGASite.Core.Enums;
 using MOGASite.Core.Repositories;
 using MOGASite.Core.Services;
 using MOGASite.Core.Specifications.Blogs;
+using MOGASite.Services.SEO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,16 +40,16 @@ namespace MOGASite.Services
             string imageUrl = await _fileUploadService.UploadFileAsync(request.Image, "blogs");
 
 
-            // Generate initial slug
-            //string slug = SlugHelper.GenerateSlug(request.TitleEN);
-            //string originalSlug = slug;
-            //int counter = 1;
+            //Generate initial slug
+            string slug = Slug.GenerateSlug(request.TitleEN);
+            string originalSlug = slug;
+            int counter = 1;
 
-            //// Ensure slug is unique
-            //while (await _unitOfWork.Repository<Blog>().AnyAsync(b => b.Slug == slug))
-            //{
-            //    slug = $"{originalSlug}-{counter++}";
-            //}
+            // Ensure slug is unique
+            while (await _unitOfWork.Repository<Blog>().AnyAsync(b => b.Slug == slug))
+            {
+                slug = $"{originalSlug}-{counter++}";
+            }
 
             var blog = new Blog
             {
@@ -59,6 +60,7 @@ namespace MOGASite.Services
                 ImageUrl = imageUrl,
                 ContentAR = request.ContentAR,
                 ContentEN = request.ContentEN,
+                Slug = slug,
 
             };
 
@@ -92,7 +94,8 @@ namespace MOGASite.Services
                 Category = blog.Category.ToString(),
                 Date = blog.Date.ToString(),
                 ContentAR = blog.ContentAR,
-                ContentEN = blog.ContentEN,          
+                ContentEN = blog.ContentEN,  
+                Slug = blog.Slug
             };
 
         }
@@ -120,6 +123,7 @@ namespace MOGASite.Services
                 Date = blog.Date.ToString(),
                 ContentAR = blog.ContentAR,
                 ContentEN = blog.ContentEN,
+                Slug = blog.Slug
                 //BlogContents = blog.BlogContents.Select(c => new BlogContentResponse
                 //{
                 //    TitleAR = c.TitleAR,
@@ -156,6 +160,8 @@ namespace MOGASite.Services
                 ContentAR = blog.ContentAR,
                 ContentEN = blog.ContentEN,
 
+                Slug = blog.Slug
+
                 //BlogContents = blog.BlogContents.Select(c => new BlogContentResponse
                 //{
                 //    TitleAR = c.TitleAR,
@@ -191,6 +197,22 @@ namespace MOGASite.Services
             if (request.Image == null || request.Image.Length == 0)
             {
                 throw new ArgumentException("Image is required.");
+            }
+
+            // Check if TitleEN is updated
+            if (!string.Equals(blog.TitleEN, request.TitleEN, StringComparison.OrdinalIgnoreCase))
+            {
+                string newSlug = Slug.GenerateSlug(request.TitleEN);
+                string originalSlug = newSlug;
+                int counter = 1;
+
+                // Ensure slug is unique
+                while (await _unitOfWork.Repository<Blog>().AnyAsync(b => b.Slug == newSlug && b.Id != blog.Id))
+                {
+                    newSlug = $"{originalSlug}-{counter++}";
+                }
+
+                blog.Slug = newSlug;
             }
 
             blog.TitleAR = request.TitleAR;
@@ -271,7 +293,8 @@ namespace MOGASite.Services
                 Category = blog.Category.ToString(),
                 Date = blog.Date.ToString(),
                 ContentAR = blog.ContentAR,
-                ContentEN = blog.ContentEN
+                ContentEN = blog.ContentEN,
+                
 
             };
         }
@@ -319,6 +342,34 @@ namespace MOGASite.Services
 
             return count;
 
+        }
+
+        public async Task<BlogResponse> GetBlogBySlugAsync(string slug, CancellationToken cancellationToken = default)
+        {
+
+            var spec = new BlogWithContentsSpecification(slug);
+
+            var blog = await _unitOfWork.Repository<Blog>().GetByIdWithSpecAsync(spec, cancellationToken);
+
+            if (blog == null)
+            {
+                throw new KeyNotFoundException("Blog not found");
+            }
+
+            return new BlogResponse
+            {
+                BlogId = blog.Id,
+                TitleAR = blog.TitleAR,
+                TitleEN = blog.TitleEN,
+                DescriptionAR = blog.DescriptionAR,
+                DescriptionEN = blog.DescriptionEN,
+                ImageUrl = blog.ImageUrl ?? string.Empty,
+                Category = blog.Category.ToString(),
+                Date = blog.Date.ToString(),
+                ContentAR = blog.ContentAR,
+                ContentEN = blog.ContentEN,
+                Slug = blog.Slug
+            };
         }
     }
 }

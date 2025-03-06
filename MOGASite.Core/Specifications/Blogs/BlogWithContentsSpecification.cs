@@ -42,6 +42,12 @@ namespace MOGASite.Core.Specifications.Blogs
             AddInclude();
         }
 
+        public BlogWithContentsSpecification(string slug)
+            : base(b => b.Slug == slug)
+        {
+            AddInclude();
+        }
+
         private void AddInclude()
         {
             //Includes.Add(b=>b.BlogContents);
