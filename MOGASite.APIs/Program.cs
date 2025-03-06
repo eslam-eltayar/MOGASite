@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using MOGASite.APIs.Extensions;
 using MOGASite.Reposatories._Identity;
 using Serilog;
+using StackExchange.Redis;
 
 namespace MOGASite.APIs
 {
@@ -18,8 +20,13 @@ namespace MOGASite.APIs
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddOpenApi();
-
             builder.Services.AddCors();
+
+            builder.Services.AddSingleton<IConnectionMultiplexer>((servicesProvider) =>
+            {
+                var connection = builder.Configuration.GetConnectionString("Redis");
+                return ConnectionMultiplexer.Connect(connection);
+            });
 
             builder.Services.AddApplicationServices(builder.Configuration);
 

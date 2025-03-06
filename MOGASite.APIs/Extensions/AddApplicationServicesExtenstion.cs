@@ -41,6 +41,7 @@ namespace MOGASite.APIs.Extensions
 
             Services.AddScoped<IMailService, MailService>();
 
+            Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
 
             return Services;
         }
