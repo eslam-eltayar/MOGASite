@@ -25,7 +25,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        //[Cached(600)]
+        [Cached(600)]
         [HttpGet("")]
         public async Task<ActionResult<IReadOnlyList<ServiceResponse>>> GetServices([FromQuery] ServiceByCategoryRequest request, CancellationToken cancellationToken)
         {
@@ -54,7 +54,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        //[Cached(600)]
+        [Cached(600)]
         [HttpGet("BySlug/{slug}")]
         public async Task<ActionResult<ServiceResponse>> GetServiceBySlug(string slug, CancellationToken cancellationToken)
         {

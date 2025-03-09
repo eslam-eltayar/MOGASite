@@ -25,7 +25,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        //[Cached(600)]
+        [Cached(600)]
         [HttpGet("")]
         public async Task<IActionResult> GetProjects(CancellationToken cancellationToken)
         {
@@ -54,7 +54,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        //[Cached(600)]
+        [Cached(600)]
         [HttpGet("BySlug/{slug}")]
         public async Task<IActionResult> GetProjectBySlug(string slug, CancellationToken cancellationToken)
         {
@@ -69,7 +69,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        //[Cached(600)]
+        [Cached(600)]
         [HttpGet("ByCategory")]
         public async Task<IActionResult> GetProjectsByCategory([FromQuery] ProjectByCategoryRequest request, CancellationToken cancellationToken)
         {

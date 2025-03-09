@@ -42,7 +42,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        //[Cached(600)]
+        [Cached(600)]
         [HttpGet("BySlug/{slug}")]
         public async Task<IActionResult> GetBlogBySlug(string slug, CancellationToken cancellationToken)
         {
@@ -57,7 +57,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        //[Cached(600)]
+        [Cached(600)]
         [HttpGet("AllBlogs")]
         public async Task<ActionResult<Pagination<IReadOnlyList<BlogResponse>>>> GetAllBlogs([FromQuery] PaginationDto paginationDto, CancellationToken cancellationToken)
         {
