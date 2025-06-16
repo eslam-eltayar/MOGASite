@@ -26,6 +26,8 @@ namespace MOGASite.Core.DTOs.Responses
 
         public string Category { get; set; } = string.Empty;
 
+        public bool HasPlan { get; set; }
+
         public List<ServiceStepsResponse> ServiceSteps { get; set; } = new List<ServiceStepsResponse>();
     }
 }

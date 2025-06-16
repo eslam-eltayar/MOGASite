@@ -59,7 +59,8 @@ namespace MOGASite.Services
                 BioAR = request.BioAR,
                 BioEN = request.BioEN,
                 Category = request.Category,
-                Slug = slug
+                Slug = slug,
+                HasPlan = request.HasPlan,
 
             };
 
@@ -127,6 +128,7 @@ namespace MOGASite.Services
                 Image = service.Image,
                 Type = service.Type.ToString(),
                 Category = service.Category,
+                HasPlan = service.HasPlan,
                 ServiceSteps = service.ServiceSteps.Select(step => new ServiceStepsResponse
                 {
                     TitleAR = step.TitleAR,
@@ -217,7 +219,7 @@ namespace MOGASite.Services
                 Image = service.Image,
                 Type = service.Type.ToString(),
                 Category = service.Category,
-
+                HasPlan = service.HasPlan,
                 ServiceSteps = service.ServiceSteps.Select(step => new ServiceStepsResponse
                 {
                     TitleAR = step.TitleAR,
@@ -259,7 +261,7 @@ namespace MOGASite.Services
                 Type = service.Type.ToString(),
                 Category = service.Category,
                 Slug = service.Slug,
-
+                HasPlan = service.HasPlan,
                 ServiceSteps = service.ServiceSteps.Select(step => new ServiceStepsResponse
                 {
                     TitleAR = step.TitleAR,
@@ -297,7 +299,7 @@ namespace MOGASite.Services
                 Type = service.Type.ToString(),
                 Category = service.Category,
                 Slug = service.Slug,
-
+                HasPlan = service.HasPlan,
                 ServiceSteps = service.ServiceSteps.Select(step => new ServiceStepsResponse
                 {
                     TitleAR = step.TitleAR,
@@ -351,6 +353,7 @@ namespace MOGASite.Services
             service.BioAR = request.BioAR;
             service.BioEN = request.BioEN;
             service.Category = request.Category;
+            service.HasPlan = request.HasPlan;
 
             if (Enum.TryParse<ProjectType>(request.Type, true, out var parsedType))
             {

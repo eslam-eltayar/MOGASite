@@ -26,7 +26,7 @@ namespace MOGASite.Core.Entities
 
         public string Slug { get; set; } = string.Empty;
 
-
+        public bool HasPlan { get; set; } = false;
         public ICollection<ServiceSteps> ServiceSteps { get; set; } = new HashSet<ServiceSteps>();
     }
 }

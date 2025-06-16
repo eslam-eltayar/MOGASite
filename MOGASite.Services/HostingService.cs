@@ -30,6 +30,7 @@ namespace MOGASite.Services
                 Price = request.Price,
                 IsBest = request.IsBest,
                 Url = request.Url,
+                Category = request.Category,
             };
 
             _unitOfWork.Repository<Hosting>().Add(hosting);
@@ -70,6 +71,7 @@ namespace MOGASite.Services
                 Price = hosting.Price,
                 IsBest = hosting.IsBest,
                 Url = hosting.Url,
+                Category = hosting.Category,
                 Hosting_Properties = hosting.HostingProperties.Select(x => new HostingPropertiesRequest
                 {
                     TitleAR = x.TitleAR,
@@ -125,6 +127,7 @@ namespace MOGASite.Services
                 Price = hosting.Price,
                 IsBest = hosting.IsBest,
                 Url = hosting.Url,
+                Category = hosting.Category,
                 Hosting_Properties = hosting.HostingProperties.Select(x => new HostingPropertiesRequest
                 {
                     TitleAR = x.TitleAR,
@@ -154,6 +157,7 @@ namespace MOGASite.Services
             hosting.Price = request.Price;
             hosting.IsBest = request.IsBest;
             hosting.Url = request.Url;
+            hosting.Category = request.Category;
 
             if (request.HostingProperties.Any())
             {

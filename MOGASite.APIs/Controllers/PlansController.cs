@@ -6,7 +6,7 @@ using MOGASite.Core.Services;
 
 namespace MOGASite.APIs.Controllers
 {
-    public class HostingController(IHostingService hostingService) : ApiBaseController
+    public class PlansController(IHostingService hostingService) : ApiBaseController
     {
         private readonly IHostingService _hostingService = hostingService;
 

@@ -18,6 +18,8 @@ namespace MOGASite.Core.DTOs.Responses
         public decimal Price { get; set; } = 0m;
         public bool IsBest { get; set; }
 
+        public string? Category { get; set; }
+
         public List<HostingPropertiesRequest> Hosting_Properties { get; set; } = new List<HostingPropertiesRequest>();
     }
 }

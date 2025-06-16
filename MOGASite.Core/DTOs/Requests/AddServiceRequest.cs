@@ -17,6 +17,7 @@
 
         public IFormFile Image { get; set; }
 
+        public bool HasPlan { get; set; }
         public List<ServiceStepsRequest> ServiceSteps { get; set; } = new List<ServiceStepsRequest>();
     }
 }

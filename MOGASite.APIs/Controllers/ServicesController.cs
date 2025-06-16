@@ -54,7 +54,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        [Cached(600)]
+       // [Cached(30)]
         [HttpGet("BySlug/{slug}")]
         public async Task<ActionResult<ServiceResponse>> GetServiceBySlug(string slug, CancellationToken cancellationToken)
         {
