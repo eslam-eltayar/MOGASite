@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MOGASite.APIs.Helpers;
+﻿using Microsoft.AspNetCore.Mvc;
 using MOGASite.Core.DTOs.Requests;
 using MOGASite.Core.DTOs.Responses;
 using MOGASite.Core.Services;
@@ -25,7 +23,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        [Cached(600)]
+        //[Cached(600)]
         [HttpGet("")]
         public async Task<ActionResult<IReadOnlyList<ServiceResponse>>> GetServices([FromQuery] ServiceByCategoryRequest request, CancellationToken cancellationToken)
         {
@@ -54,7 +52,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-       // [Cached(30)]
+        // [Cached(30)]
         [HttpGet("BySlug/{slug}")]
         public async Task<ActionResult<ServiceResponse>> GetServiceBySlug(string slug, CancellationToken cancellationToken)
         {

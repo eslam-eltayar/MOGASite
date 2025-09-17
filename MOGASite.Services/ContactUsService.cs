@@ -3,11 +3,6 @@ using MOGASite.Core.DTOs.Responses;
 using MOGASite.Core.Entities;
 using MOGASite.Core.Repositories;
 using MOGASite.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MOGASite.Services
 {
@@ -43,7 +38,7 @@ namespace MOGASite.Services
             }
 
             // **Send Email After Contact is Saved**
-            await SendContactUsEmailAsync(contactUs);
+            //await SendContactUsEmailAsync(contactUs);
 
             return new ContactUsResponse
             {
@@ -75,7 +70,7 @@ namespace MOGASite.Services
 
             int result = await _unitOfWork.CompleteAsync(cancellationToken);
 
-            if(result <= 0)
+            if (result <= 0)
             {
                 throw new Exception("Failed to delete contact us.");
             }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MOGASite.APIs.Helpers;
 using MOGASite.Core.DTOs.Requests;
 using MOGASite.Core.DTOs.Responses;
@@ -42,7 +41,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        [Cached(600)]
+        //[Cached(600)]
         [HttpGet("BySlug/{slug}")]
         public async Task<IActionResult> GetBlogBySlug(string slug, CancellationToken cancellationToken)
         {
@@ -57,7 +56,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        [Cached(600)]
+        //[Cached(600)]
         [HttpGet("AllBlogs")]
         public async Task<ActionResult<Pagination<IReadOnlyList<BlogResponse>>>> GetAllBlogs([FromQuery] PaginationDto paginationDto, CancellationToken cancellationToken)
         {

@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using MOGASite.Core.Entities;
 using MOGASite.Core.Repositories;
 using MOGASite.Core.Services;
 using MOGASite.Reposatories._Data;
@@ -39,6 +38,7 @@ namespace MOGASite.APIs.Extensions
             Services.AddScoped<IClientService, ClientService>();
             Services.AddScoped<IHostingService, HostingService>();
             Services.AddScoped<IServiceService, ServiceService>();
+            Services.AddScoped<ISeoService, SeoService>();
 
             Services.AddScoped<IMailService, MailService>();
 

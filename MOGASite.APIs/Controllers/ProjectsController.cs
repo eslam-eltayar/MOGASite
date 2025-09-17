@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MOGASite.APIs.Helpers;
+﻿using Microsoft.AspNetCore.Mvc;
 using MOGASite.Core.DTOs.Requests;
 using MOGASite.Core.Services;
 
@@ -25,7 +23,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        [Cached(600)]
+        //[Cached(600)]
         [HttpGet("")]
         public async Task<IActionResult> GetProjects(CancellationToken cancellationToken)
         {
@@ -54,7 +52,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        [Cached(600)]
+        //[Cached(600)]
         [HttpGet("BySlug/{slug}")]
         public async Task<IActionResult> GetProjectBySlug(string slug, CancellationToken cancellationToken)
         {
@@ -69,7 +67,7 @@ namespace MOGASite.APIs.Controllers
             }
         }
 
-        [Cached(600)]
+        // [Cached(600)]
         [HttpGet("ByCategory")]
         public async Task<IActionResult> GetProjectsByCategory([FromQuery] ProjectByCategoryRequest request, CancellationToken cancellationToken)
         {

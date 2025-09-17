@@ -3,11 +3,6 @@ using MOGASite.Core.DTOs.Responses;
 using MOGASite.Core.Entities;
 using MOGASite.Core.Repositories;
 using MOGASite.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MOGASite.Services
 {
@@ -45,7 +40,7 @@ namespace MOGASite.Services
             }
 
             // **Send Email After Quotation is Saved**
-            await SendQuotationEmailAsync(quotation);
+            //await SendQuotationEmailAsync(quotation);
 
             return new QuotationResponse
             {
